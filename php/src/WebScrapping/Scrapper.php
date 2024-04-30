@@ -16,18 +16,37 @@ class Scrapper {
    * Loads paper information from the HTML and returns the array with the data.
    */
   public function scrap(\DOMDocument $dom): array {
+    /**Set xpath for query search */
     $xpath = new DOMXpath($dom);
     $papers = $xpath->query(".//a[contains(@class, 'paper-card']");
     $papers_return = [];
 
     foreach ($papers as $paper) {
+      /**Gets information needed for create a paper */
       $id->$xpath->query(".//div[contains(@class,'volume-info'",$paper)[0]->textContent;
 
       $title->$xpath->query(".//h4[contains(@class,'paper-title')]",$paper)[0]->textContent;
       $tag->$xpath->query(".//div[contains(@class,'tags mr-sm')]",$paper)[0]->textContent;
 
+      $authors = $this->getAuthors($paper);
+
+
+      $paper_scrap = new Paper( $id,
+                                $title,
+                                $tag,
+                                $authors);
+      array_push($papers_return,$paper_scrap);
+
+
+    }
+      return $papers_return;
+  }
+
+  public function getAuthors($node):array {
+      /**Get each author from a paper and return a array with them */
+
       $authors_paper = [];
-      $authors_div->$xpath->query(".//div[contains(@class,'volume-info'",$paper);
+      $authors_div->$xpath->query(".//div[contains(@class,'volume-info'",$node);
       $authors->$xpath->query(".//span",$authors_div);
 
       foreach($authors as $author){
@@ -35,13 +54,8 @@ class Scrapper {
         array_push($authors_paper[],$person);
       }
 
+      return $authors_paper;
 
-      $paper_scrap = new Paper($id,$title,$tag,$authors_paper);
-      array_push($papers_return,$paper_scrap);
-
-
-    }
-      return $papers_return;
   }
 
 }
