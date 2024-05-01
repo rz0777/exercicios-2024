@@ -17,19 +17,19 @@ class Scrapper {
   public function scrap(\DOMDocument $dom): array {
     /**Set xpath for query search */
     $xpath = new \DOMXpath($dom);
-    $papers = $xpath->query("//*[contains(@class, 'paper-card p-lg bd-gradient-left')]");
+    $papers = $xpath->query(".//a[contains(@class, 'paper-card p-lg bd-gradient-left')]");
     $papers_return = [];
 
     foreach ($papers as $paper) {
       /**Gets information needed for create a paper */
-      $id = $xpath->query(".//div[contains(@class,'volume-info')]",$paper)->item(0)->textContent;
+      $id = $xpath->query(".//div[contains(@class,'volume-info')]",$paper)[0]->textContent;
 
-      $title = $xpath->query(".//h4[contains(@class,'my-xs paper-title')]",$paper)->item(0)->textContent;
-      $tag = $xpath->query(".//div[contains(@class,'tags mr-sm')]",$paper)->item(0)->textContent;
+      $title = $xpath->query(".//h4[contains(@class,'my-xs paper-title')]",$paper)[0]->textContent;
+      $tag = $xpath->query(".//div[contains(@class,'tags mr-sm')]",$paper)[0]->textContent;
 
       $authors_paper = [];
       $authors_div = $xpath->query(".//div[contains(@class,'authors')]",$paper);
-      $authors = $xpath->query(".//span",$authors_div->item(0));
+      $authors = $xpath->query(".//span",$authors_div[0]);
 
       foreach($authors as $author){
         $person = new Person($author->textContent,$author->getAttribute("title"));
@@ -40,7 +40,7 @@ class Scrapper {
       $paper_scrap = new Paper( $id,
                                 $title,
                                 $tag,
-                                $authors);
+                                $authors_paper);
       array_push($papers_return,$paper_scrap);
 
 
