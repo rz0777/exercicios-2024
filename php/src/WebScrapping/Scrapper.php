@@ -46,7 +46,7 @@ class Scrapper {
       /**Get each author from a paper and return a array with them */
 
       $authors_paper = [];
-      $authors_div->$xpath->query(".//div[contains(@class,'volume-info'",$node);
+      $authors_div->$xpath->query(".//div[contains(@class,'authors'",$node);
       $authors->$xpath->query(".//span",$authors_div);
 
       foreach($authors as $author){
