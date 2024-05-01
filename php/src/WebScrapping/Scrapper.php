@@ -27,7 +27,14 @@ class Scrapper {
       $title = $xpath->query(".//h4[contains(@class,'my-xs paper-title')]",$paper)->item(0)->textContent;
       $tag = $xpath->query(".//div[contains(@class,'tags mr-sm')]",$paper)->item(0)->textContent;
 
-      $authors = $this->getAuthors($paper,$xpath);
+      $authors_paper = [];
+      $authors_div = $xpath->query(".//div[contains(@class,'authors')]",$node);
+      $authors = $xpath->query(".//span",$authors_div);
+      
+      foreach($authors as $author){
+        $person = new Person($author->textContent,$author->getAttribute("title"));
+        array_push($authors_paper[],$person);
+      }
 
 
       $paper_scrap = new Paper( $id,
@@ -41,20 +48,5 @@ class Scrapper {
       return $papers_return;
   }
 
-  public function getAuthors($node,$xpath):array {
-      /**Get each author from a paper and return a array with them */
-
-      $authors_paper = [];
-      $authors_div = $xpath->query(".//div[contains(@class,'authors')]",$node);
-      $authors = $xpath->query(".//span",$authors_div);
-
-      foreach($authors as $author){
-        $person = new Person($authors->textContent,$author->getAttribute("title"));
-        array_push($authors_paper[],$person);
-      }
-
-      return $authors_paper;
-
-  }
 
 }
