@@ -28,12 +28,12 @@ class Scrapper {
       $tag = $xpath->query(".//div[contains(@class,'tags mr-sm')]",$paper)->item(0)->textContent;
 
       $authors_paper = [];
-      $authors_div = $xpath->query(".//div[contains(@class,'authors')]",$node);
-      $authors = $xpath->query(".//span",$authors_div);
-      
+      $authors_div = $xpath->query(".//div[contains(@class,'authors')]",$paper);
+      $authors = $xpath->query(".//span",$authors_div->item(0));
+
       foreach($authors as $author){
         $person = new Person($author->textContent,$author->getAttribute("title"));
-        array_push($authors_paper[],$person);
+        array_push($authors_paper,$person);
       }
 
 
