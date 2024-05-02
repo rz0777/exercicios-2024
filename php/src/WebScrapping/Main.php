@@ -15,6 +15,7 @@ class Main {
     $dom->loadHTMLFile(__DIR__ . '/../../assets/origin.html');
 
     $data = (new Scrapper())->scrap($dom);
+    $xlsx = (new SproutWriter())->Write($data);
 
     // Write your logic to save the output file bellow.
     print_r($data);
