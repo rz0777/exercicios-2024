@@ -2,8 +2,8 @@
     
     namespace Chuva\Php\WebScrapping;
 
-    use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-    use Box\Spout\Common\Entity\Row;
+    use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+    use OpenSpout\Common\Entity\Row;
 
     class SproutWriter{
         /**Takes scrapped information and turns into a excel sheet */
@@ -18,6 +18,29 @@
             else {  
                 echo "File has been copied! \n";  
             }
+
+            $writer = WriterEntityFactory::createXLSXWriter();
+
+            $filePath = __DIR__ . '../../../assets/planilha.xlsx';
+            $writer->openToFile($filePath);
+
+            foreach ($papers as $paper) {
+                $data = [
+                    $paper->id,
+                    $paper->title,
+                    $paper->type,
+                ];
+    
+                foreach ($paper->authors as $author) {
+                    $data[] = $author->name;
+                    $data[] = $author->institution;
+                }
+    
+                $row = WriterEntityFactory::createRowFromArray($data);
+                $writer->addRow($row);
+            }
+    
+            $writer->close();
 
         }
 
