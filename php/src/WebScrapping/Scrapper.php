@@ -35,7 +35,7 @@ class Scrapper {
         $person = new Person($author->textContent,$author->getAttribute("title"));
         array_push($authors_paper,$person);
       }
-
+      /**Crate paper and add to return array */
 
       $paper_scrap = new Paper( $id,
                                 $title,
